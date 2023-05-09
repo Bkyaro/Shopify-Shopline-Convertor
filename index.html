@@ -93,6 +93,9 @@
       color: #2196f3;
     }
     button {
+      word-wrap: break-word;
+      max-width: 100px;
+      height: auto;
       appearance: none;
       background-color: #fafbfc;
       border: 1px solid rgba(27, 31, 35, 0.15);
@@ -116,8 +119,6 @@
       -webkit-user-select: none;
       touch-action: manipulation;
       vertical-align: middle;
-      white-space: nowrap;
-      word-wrap: break-word;
     }
 
     button:hover {
@@ -369,7 +370,7 @@
           output.value = outputData.data;
         })
         .catch((error) => {
-          submitButton.innerHTML = "转换失败,请重试";
+          submitButton.innerText = `转换失败,请尝试去除文本中的\<style\>\<\/style\>块后重试`;
           loading.style.display = "none";
           submitButton.removeAttribute("disabled");
           console.error(error);
