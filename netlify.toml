@@ -5,3 +5,7 @@
 for = "/*"
   [headers.values]
   Access-Control-Allow-Origin = "*"
+
+[functions]
+  external_node_modules = ["liquid-to-handlebars"]
+  node_bundler = "esbuild"
