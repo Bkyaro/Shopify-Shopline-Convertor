@@ -1,6 +1,6 @@
-const converter = require("liquid-to-handlebars");
-
 exports.handler = async (event, handler) => {
+  const converter = require("liquid-to-handlebars");
+  
   let processedData = converter.convert(JSON.parse(event.body).data);
   let decodedData = decodeURIComponent(processedData);
 
