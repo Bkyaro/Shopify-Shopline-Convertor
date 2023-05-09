@@ -302,6 +302,9 @@
   // 获取提交按钮元素
   const submitButton = document.querySelector("#generate-btn");
 
+  // 获取复制按钮元素
+  const copyButton = document.getElementById("copy-btn");
+
   //throttle
   const throttle = (fn, wait) => {
     let inThrottle, lastFn, lastTime;
@@ -323,6 +326,22 @@
       }
     };
   };
+
+  // 复制按钮处理
+  async function copyCode() {
+    let text = document.getElementById("output").value;
+    try {
+      await navigator.clipboard.writeText(text).then(() => {
+        document.getElementById("copy-btn").innerText = "已复制";
+      });
+    } catch (err) {
+      document.getElementById("copy-btn").innerText = "复制失败";
+      console.error("Failed to copy: ", err);
+    }
+  }
+  copyButton.addEventListener("click", copyCode);
+
+  // 点击事件处理
   submitButton.addEventListener("click", () => {
     // 加载loading 锁定按钮
     loading.style.display = "flex";
