@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>字符串处理示例</title>
+  </head>
+  <body>
+    <h1>字符串处理示例</h1>
+    <label for="input">输入字符串：</label><br />
+    <textarea id="input" rows="10" cols="80"></textarea><br />
+    <button id="submit">提交</button><br />
+    <br />
+    <label for="output">输出字符串：</label><br />
+    <textarea id="output" rows="10" cols="80"></textarea><br />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </body>
+</html>
+
+<script>
+  // 获取输入/输出的 textarea 元素
+  const input = document.getElementById("input");
+  const output = document.getElementById("output");
+
+  // 获取提交按钮元素
+  const submitButton = document.getElementById("submit");
+
+  // 添加点击事件监听器
+  submitButton.addEventListener("click", () => {
+    // 获取用户输入的字符串
+    const inputData = input.value;
+
+    // 发送请求到后端
+    axios
+      .post("/process", { data: inputData })
+      .then((response) => {
+        // 获取后端返回的数据
+        const outputData = response.data;
+
+        // 设置输出的 textarea 元素的值
+        output.value = outputData;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  });
+</script>
