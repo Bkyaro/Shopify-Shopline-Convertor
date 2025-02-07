@@ -1,380 +1,403 @@
 <!DOCTYPE html>
 
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Convertor</title>
-  </head>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: lightgrey;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      gap: 12px;
-      padding: 0 24px;
-    }
-    textarea::-webkit-scrollbar {
-      display: none;
-    }
-    .input-group,
-    .output-group {
-      position: relative;
-      flex: 1;
-      margin: 0 auto;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: calc(100% - 12px);
-      width: 100%;
-    }
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Convertor</title>
+		<style>
+			body {
+				margin: 0;
+				padding: 0;
+				background-color: lightgrey;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+				gap: 12px;
+				padding: 0 24px;
+				position: relative;
+			}
 
-    #input {
-      background: linear-gradient(0deg, #d7d7d7 0%, #eeeeee 100%);
-    }
+			body::before {
+				content: "";
+				position: absolute;
+				inset: 0;
+				background-image: url("./assets/landscape.jpg");
+				background-size: cover;
+				background-position: center;
 
-    #output {
-      background: linear-gradient(0deg, #eeeeee 0%, #d7d7d7 100%);
-    }
+				mask-image: url("./assets/inkky.gif");
+				mask-size: cover;
+				mask-position: center;
+			}
+			textarea::-webkit-scrollbar {
+				display: none;
+			}
+			.input-group,
+			.output-group {
+				position: relative;
+				flex: 1;
+				margin: 0 auto;
+				height: 100%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: calc(100% - 12px);
+				width: 100%;
+			}
 
-    #copy-btn {
-      position: absolute;
-      top: 45px;
-      right: 15px;
-    }
+			#input {
+				background: linear-gradient(
+					0deg,
+					rgba(215, 215, 215, 0.6) 0%,
+					rgba(238, 238, 238, 0.6) 100%
+				);
+			}
 
-    textarea {
-      border: solid 1.5px #9e9e9e;
-      border-radius: 1rem;
-      padding: 1rem;
-      font-size: 1rem;
-      color: #252121;
-      transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);
-      height: calc(100% - 100px);
-      overflow: scroll;
-      width: calc(100% - 20px);
-    }
+			#output {
+				background: linear-gradient(
+					0deg,
+					rgba(238, 238, 238, 0.6) 0%,
+					rgba(215, 215, 215, 0.6) 100%
+				);
+			}
 
-    .user-label {
-      position: absolute;
-      left: 15px;
-      top: 32px;
-      font-weight: bold;
-      pointer-events: none;
-      transform: translateY(1rem);
-      transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-    }
+			#copy-btn {
+				position: absolute;
+				top: 45px;
+				right: 15px;
+			}
 
-    .shopify {
-      color: hsl(150deg 30% 60%);
-    }
+			textarea {
+				border: solid 1.5px #9e9e9e;
+				border-radius: 1rem;
+				padding: 1rem;
+				font-size: 1rem;
+				color: #252121;
+				transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);
+				height: calc(100% - 100px);
+				overflow: scroll;
+				width: calc(100% - 20px);
+			}
 
-    .shopline {
-      color: hsl(0 0% 0%);
-    }
+			.user-label {
+				position: absolute;
+				left: 15px;
+				top: 32px;
+				font-weight: bold;
+				pointer-events: none;
+				transform: translateY(1rem);
+				transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+			}
 
-    textarea:focus,
-    input:valid {
-      outline: none;
-      border: 1.5px solid #1a73e8;
-    }
+			.shopify {
+				color: hsl(150deg 30% 60%);
+			}
 
-    textarea:focus ~ label,
-    input:valid ~ label {
-      transform: translateY(-50%) scale(0.8);
-      background-color: #212121;
-      padding: 0 0.2em;
-      color: #2196f3;
-    }
-    button {
-      word-wrap: break-word;
-      max-width: 100px;
-      height: auto;
-      appearance: none;
-      background-color: #fafbfc;
-      border: 1px solid rgba(27, 31, 35, 0.15);
-      border-radius: 6px;
-      box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0,
-        rgba(255, 255, 255, 0.25) 0 1px 0 inset;
-      box-sizing: border-box;
-      color: #24292e;
-      cursor: pointer;
-      display: inline-block;
-      font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
-        sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-      font-size: 14px;
-      font-weight: 500;
-      line-height: 20px;
-      list-style: none;
-      padding: 6px 16px;
-      position: relative;
-      transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: manipulation;
-      vertical-align: middle;
-    }
+			.shopline {
+				color: hsl(0 0% 0%);
+			}
 
-    button:hover {
-      background-color: #f3f4f6;
-      text-decoration: none;
-      transition-duration: 0.1s;
-    }
+			textarea:focus,
+			input:valid {
+				outline: none;
+				border: 1.5px solid #1a73e8;
+			}
 
-    button:disabled {
-      background-color: #fafbfc;
-      border-color: rgba(27, 31, 35, 0.15);
-      color: #959da5;
-      cursor: default;
-    }
+			textarea:focus ~ label,
+			input:valid ~ label {
+				transform: translateY(-50%) scale(0.8);
+				background-color: #212121;
+				padding: 0 0.2em;
+				color: #2196f3;
+			}
+			button {
+				word-wrap: break-word;
+				max-width: 100px;
+				height: auto;
+				appearance: none;
+				background-color: #fafbfc;
+				border: 1px solid rgba(27, 31, 35, 0.15);
+				border-radius: 6px;
+				box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0,
+					rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+				box-sizing: border-box;
+				color: #24292e;
+				cursor: pointer;
+				display: inline-block;
+				font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
+          sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+				font-size: 14px;
+				font-weight: 500;
+				line-height: 20px;
+				list-style: none;
+				padding: 6px 16px;
+				position: relative;
+				transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+				user-select: none;
+				-webkit-user-select: none;
+				touch-action: manipulation;
+				vertical-align: middle;
+			}
 
-    button:active {
-      background-color: #edeff2;
-      box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
-      transition: none 0s;
-    }
+			button:hover {
+				background-color: #f3f4f6;
+				text-decoration: none;
+				transition-duration: 0.1s;
+			}
 
-    button:focus {
-      outline: 1px transparent;
-    }
+			button:disabled {
+				background-color: #fafbfc;
+				border-color: rgba(27, 31, 35, 0.15);
+				color: #959da5;
+				cursor: default;
+			}
 
-    button:before {
-      display: none;
-    }
+			button:active {
+				background-color: #edeff2;
+				box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+				transition: none 0s;
+			}
 
-    button:-webkit-details-marker {
-      display: none;
-    }
+			button:focus {
+				outline: 1px transparent;
+			}
 
-    .loading {
-      height: 10px;
-      width: 10px;
-      background: #000;
-      position: absolute;
-    }
+			button:before {
+				display: none;
+			}
 
-    .dot-spinner {
-      position: absolute;
-      --uib-size: 2.8rem;
-      --uib-speed: 0.9s;
-      --uib-color: #183153;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      height: var(--uib-size);
-      width: var(--uib-size);
-      display: none;
-    }
+			button:-webkit-details-marker {
+				display: none;
+			}
 
-    .dot-spinner__dot {
-      position: absolute;
-      top: 0;
-      left: 0;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      height: 100%;
-      width: 100%;
-    }
+			.loading {
+				height: 10px;
+				width: 10px;
+				background: #000;
+				position: absolute;
+			}
 
-    .dot-spinner__dot::before {
-      content: "";
-      height: 20%;
-      width: 20%;
-      border-radius: 50%;
-      background-color: var(--uib-color);
-      transform: scale(0);
-      opacity: 0.5;
-      animation: pulse0112 calc(var(--uib-speed) * 1.111) ease-in-out infinite;
-      box-shadow: 0 0 20px rgba(18, 31, 53, 0.3);
-    }
+			.dot-spinner {
+				position: absolute;
+				--uib-size: 2.8rem;
+				--uib-speed: 0.9s;
+				--uib-color: #183153;
+				display: flex;
+				align-items: center;
+				justify-content: flex-start;
+				height: var(--uib-size);
+				width: var(--uib-size);
+				display: none;
+			}
 
-    .dot-spinner__dot:nth-child(2) {
-      transform: rotate(45deg);
-    }
+			.dot-spinner__dot {
+				position: absolute;
+				top: 0;
+				left: 0;
+				display: flex;
+				align-items: center;
+				justify-content: flex-start;
+				height: 100%;
+				width: 100%;
+			}
 
-    .dot-spinner__dot:nth-child(2)::before {
-      animation-delay: calc(var(--uib-speed) * -0.875);
-    }
+			.dot-spinner__dot::before {
+				content: "";
+				height: 20%;
+				width: 20%;
+				border-radius: 50%;
+				background-color: var(--uib-color);
+				transform: scale(0);
+				opacity: 0.5;
+				animation: pulse0112 calc(var(--uib-speed) * 1.111) ease-in-out infinite;
+				box-shadow: 0 0 20px rgba(18, 31, 53, 0.3);
+			}
 
-    .dot-spinner__dot:nth-child(3) {
-      transform: rotate(90deg);
-    }
+			.dot-spinner__dot:nth-child(2) {
+				transform: rotate(45deg);
+			}
 
-    .dot-spinner__dot:nth-child(3)::before {
-      animation-delay: calc(var(--uib-speed) * -0.75);
-    }
+			.dot-spinner__dot:nth-child(2)::before {
+				animation-delay: calc(var(--uib-speed) * -0.875);
+			}
 
-    .dot-spinner__dot:nth-child(4) {
-      transform: rotate(135deg);
-    }
+			.dot-spinner__dot:nth-child(3) {
+				transform: rotate(90deg);
+			}
 
-    .dot-spinner__dot:nth-child(4)::before {
-      animation-delay: calc(var(--uib-speed) * -0.625);
-    }
+			.dot-spinner__dot:nth-child(3)::before {
+				animation-delay: calc(var(--uib-speed) * -0.75);
+			}
 
-    .dot-spinner__dot:nth-child(5) {
-      transform: rotate(180deg);
-    }
+			.dot-spinner__dot:nth-child(4) {
+				transform: rotate(135deg);
+			}
 
-    .dot-spinner__dot:nth-child(5)::before {
-      animation-delay: calc(var(--uib-speed) * -0.5);
-    }
+			.dot-spinner__dot:nth-child(4)::before {
+				animation-delay: calc(var(--uib-speed) * -0.625);
+			}
 
-    .dot-spinner__dot:nth-child(6) {
-      transform: rotate(225deg);
-    }
+			.dot-spinner__dot:nth-child(5) {
+				transform: rotate(180deg);
+			}
 
-    .dot-spinner__dot:nth-child(6)::before {
-      animation-delay: calc(var(--uib-speed) * -0.375);
-    }
+			.dot-spinner__dot:nth-child(5)::before {
+				animation-delay: calc(var(--uib-speed) * -0.5);
+			}
 
-    .dot-spinner__dot:nth-child(7) {
-      transform: rotate(270deg);
-    }
+			.dot-spinner__dot:nth-child(6) {
+				transform: rotate(225deg);
+			}
 
-    .dot-spinner__dot:nth-child(7)::before {
-      animation-delay: calc(var(--uib-speed) * -0.25);
-    }
+			.dot-spinner__dot:nth-child(6)::before {
+				animation-delay: calc(var(--uib-speed) * -0.375);
+			}
 
-    .dot-spinner__dot:nth-child(8) {
-      transform: rotate(315deg);
-    }
+			.dot-spinner__dot:nth-child(7) {
+				transform: rotate(270deg);
+			}
 
-    .dot-spinner__dot:nth-child(8)::before {
-      animation-delay: calc(var(--uib-speed) * -0.125);
-    }
+			.dot-spinner__dot:nth-child(7)::before {
+				animation-delay: calc(var(--uib-speed) * -0.25);
+			}
 
-    @keyframes pulse0112 {
-      0%,
-      100% {
-        transform: scale(0);
-        opacity: 0.5;
-      }
+			.dot-spinner__dot:nth-child(8) {
+				transform: rotate(315deg);
+			}
 
-      50% {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-  </style>
-  <body>
-    <div class="input-group">
-      <textarea name="textarea" id="input"></textarea>
-      <label class="user-label shopify">Shopify</label>
-    </div>
+			.dot-spinner__dot:nth-child(8)::before {
+				animation-delay: calc(var(--uib-speed) * -0.125);
+			}
 
-    <button id="generate-btn">转换</button>
+			@keyframes pulse0112 {
+				0%,
+				100% {
+					transform: scale(0);
+					opacity: 0.5;
+				}
 
-    <div class="output-group">
-      <button id="copy-btn">复制</button>
-      <textarea name="textarea" id="output"></textarea>
-      <label class="user-label shopline">Shopline</label>
-      <div class="dot-spinner">
-        <div class="dot-spinner__dot"></div>
-        <div class="dot-spinner__dot"></div>
-        <div class="dot-spinner__dot"></div>
-        <div class="dot-spinner__dot"></div>
-        <div class="dot-spinner__dot"></div>
-        <div class="dot-spinner__dot"></div>
-        <div class="dot-spinner__dot"></div>
-        <div class="dot-spinner__dot"></div>
-      </div>
-    </div>
-  </body>
+				50% {
+					transform: scale(1);
+					opacity: 1;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="input-group">
+			<textarea name="textarea" id="input"></textarea>
+			<label class="user-label shopify">Shopify</label>
+		</div>
+
+		<button id="generate-btn">转换</button>
+
+		<div class="output-group">
+			<button id="copy-btn">复制</button>
+			<textarea name="textarea" id="output"></textarea>
+			<label class="user-label shopline">Shopline</label>
+			<div class="dot-spinner">
+				<div class="dot-spinner__dot"></div>
+				<div class="dot-spinner__dot"></div>
+				<div class="dot-spinner__dot"></div>
+				<div class="dot-spinner__dot"></div>
+				<div class="dot-spinner__dot"></div>
+				<div class="dot-spinner__dot"></div>
+				<div class="dot-spinner__dot"></div>
+				<div class="dot-spinner__dot"></div>
+			</div>
+		</div>
+	</body>
 </html>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
-  // 获取输入/输出的 textarea 元素
-  const input = document.getElementById("input");
-  const output = document.getElementById("output");
+	// 获取输入/输出的 textarea 元素
+	const input = document.getElementById("input");
+	const output = document.getElementById("output");
 
-  // 获取loading元素
-  const loading = document.querySelector(".dot-spinner");
+	// 获取loading元素
+	const loading = document.querySelector(".dot-spinner");
 
-  // 获取提交按钮元素
-  const submitButton = document.querySelector("#generate-btn");
+	// 获取提交按钮元素
+	const submitButton = document.querySelector("#generate-btn");
 
-  // 获取复制按钮元素
-  const copyButton = document.getElementById("copy-btn");
+	// 获取复制按钮元素
+	const copyButton = document.getElementById("copy-btn");
 
-  //throttle
-  const throttle = (fn, wait) => {
-    let inThrottle, lastFn, lastTime;
-    return function () {
-      const context = this,
-        args = arguments;
-      if (!inThrottle) {
-        fn.apply(context, args);
-        lastTime = Date.now();
-        inThrottle = true;
-      } else {
-        clearTimeout(lastFn);
-        lastFn = setTimeout(function () {
-          if (Date.now() - lastTime >= wait) {
-            fn.apply(context, args);
-            lastTime = Date.now();
-          }
-        }, Math.max(wait - (Date.now() - lastTime), 0));
-      }
-    };
-  };
+	//throttle
+	const throttle = (fn, wait) => {
+		let inThrottle, lastFn, lastTime;
+		return function () {
+			const context = this,
+				args = arguments;
+			if (!inThrottle) {
+				fn.apply(context, args);
+				lastTime = Date.now();
+				inThrottle = true;
+			} else {
+				clearTimeout(lastFn);
+				lastFn = setTimeout(function () {
+					if (Date.now() - lastTime >= wait) {
+						fn.apply(context, args);
+						lastTime = Date.now();
+					}
+				}, Math.max(wait - (Date.now() - lastTime), 0));
+			}
+		};
+	};
 
-  // 复制按钮处理
-  async function copyCode() {
-    let text = document.getElementById("output").value;
-    try {
-      await navigator.clipboard.writeText(text).then(() => {
-        document.getElementById("copy-btn").innerText = "已复制";
-      });
-    } catch (err) {
-      document.getElementById("copy-btn").innerText = "复制失败";
-      console.error("Failed to copy: ", err);
-    }
-  }
-  copyButton.addEventListener("click", copyCode);
+	// 复制按钮处理
+	async function copyCode() {
+		let text = document.getElementById("output").value;
+		try {
+			await navigator.clipboard.writeText(text).then(() => {
+				document.getElementById("copy-btn").innerText = "已复制";
+			});
+		} catch (err) {
+			document.getElementById("copy-btn").innerText = "复制失败";
+			console.error("Failed to copy: ", err);
+		}
+	}
+	copyButton.addEventListener("click", copyCode);
 
-  // 点击事件处理
-  submitButton.addEventListener("click", () => {
-    // 加载loading 锁定按钮
-    loading.style.display = "flex";
-    submitButton.setAttribute("disabled", "disabled");
-    submitButton.innerHTML = "转换";
-    copyButton.innerText = "复制";
-  });
+	// 点击事件处理
+	submitButton.addEventListener("click", () => {
+		// 加载loading 锁定按钮
+		loading.style.display = "flex";
+		submitButton.setAttribute("disabled", "disabled");
+		submitButton.innerHTML = "转换";
+		copyButton.innerText = "复制";
+	});
 
-  // 添加点击事件监听器
-  submitButton.addEventListener(
-    "click",
-    throttle(() => {
-      // 获取用户输入的字符串
-      const inputData = input.value;
-      // 发送请求到后端
-      axios
-        .post("/.netlify/functions/convertor", { data: inputData })
-        .then((response) => {
-          // 隐藏loading 解锁按钮
-          loading.style.display = "none";
-          submitButton.removeAttribute("disabled");
-          // 获取后端返回的数据
-          const outputData = response.data;
-          // 设置输出的 textarea 元素的值
-          output.value = outputData.data;
-        })
-        .catch((error) => {
-          submitButton.innerText = `转换失败,请尝试去除文本中的\<style\>\<\/style\>块后重试`;
-          loading.style.display = "none";
-          submitButton.removeAttribute("disabled");
-          console.error(error);
-        });
-    }, 1500)
-  );
+	// 添加点击事件监听器
+	submitButton.addEventListener(
+		"click",
+		throttle(() => {
+			// 获取用户输入的字符串
+			const inputData = input.value;
+			// 发送请求到后端
+			axios
+				.post("/.netlify/functions/convertor", { data: inputData })
+				.then((response) => {
+					// 隐藏loading 解锁按钮
+					loading.style.display = "none";
+					submitButton.removeAttribute("disabled");
+					// 获取后端返回的数据
+					const outputData = response.data;
+					// 设置输出的 textarea 元素的值
+					output.value = outputData.data;
+				})
+				.catch((error) => {
+					submitButton.innerText = `转换失败,请尝试去除文本中的\<style\>\<\/style\>块后重试`;
+					loading.style.display = "none";
+					submitButton.removeAttribute("disabled");
+					console.error(error);
+				});
+		}, 1500)
+	);
 </script>
