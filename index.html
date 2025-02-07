@@ -32,9 +32,15 @@
 				mask-size: cover;
 				mask-position: center;
 			}
+
 			textarea::-webkit-scrollbar {
 				display: none;
 			}
+
+			textarea {
+				scrollbar-width: none;
+			}
+
 			.input-group,
 			.output-group {
 				position: relative;
@@ -113,7 +119,9 @@
 				padding: 0 0.2em;
 				color: #2196f3;
 			}
+
 			button {
+				-moz-appearance: none;
 				word-wrap: break-word;
 				max-width: 100px;
 				height: auto;
@@ -127,8 +135,8 @@
 				color: #24292e;
 				cursor: pointer;
 				display: inline-block;
-				font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
-          sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+				font-family: -apple-system, system-ui, "Segoe UI", Helvetica,
+					Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 				font-size: 14px;
 				font-weight: 500;
 				line-height: 20px;
@@ -212,7 +220,8 @@
 				background-color: var(--uib-color);
 				transform: scale(0);
 				opacity: 0.5;
-				animation: pulse0112 calc(var(--uib-speed) * 1.111) ease-in-out infinite;
+				animation: pulse0112 calc(var(--uib-speed) * 1.111) ease-in-out
+					infinite;
 				box-shadow: 0 0 20px rgba(18, 31, 53, 0.3);
 			}
 
